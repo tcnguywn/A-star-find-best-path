@@ -17,3 +17,6 @@ PURPLE = (128, 0, 128)
 GREY = (200, 200, 200)
 
 FPS = 60
+FRONTIER_COLOR = (255, 255, 0)   # Vàng sáng – node tốt nhất đang xét
+VISITED_COLOR = (255, 165, 0)    # Cam/da cam – đã duyệt
+PATH_COLOR = (128, 0, 128)       # Tím – đường đi cuối cùng
