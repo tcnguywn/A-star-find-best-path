@@ -90,7 +90,7 @@ def run_algo(algo, name):
     grid.reset_colors()
     result = algo(grid)
     if result:
-        print(f"{name.upper()} | Path length: {result['length']} | Expanded: {result['expanded']}")
+        print(f"{name.upper()} | Path length: {result['length']} | Expanded: {result['expanded']} | Time: {result['time']}")
 
 def run_all_algorithms():
     for algo in [dfs, bfs, dijkstra, astar]:

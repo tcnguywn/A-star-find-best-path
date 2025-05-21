@@ -10,6 +10,7 @@ def bfs(grid):
     parent = {}
     visited.add(grid.start)
     expanded = 0
+    start_time = time.time()
 
     while queue:
         current = queue.pop(0)
@@ -30,8 +31,8 @@ def bfs(grid):
                 if neighbor != grid.end:
                     neighbor.color = VISITED_COLOR
         draw_and_delay(grid)
-
-    return reconstruct_path(parent, grid, expanded)
+    total_time = time.time() - start_time
+    return reconstruct_path(parent, grid, expanded,total_time)
 
 
 def dfs(grid):
@@ -40,6 +41,7 @@ def dfs(grid):
     parent = {}
     visited.add(grid.start)
     expanded = 0
+    start_time = time.time()
 
     while stack:
         current = stack.pop()
@@ -60,8 +62,8 @@ def dfs(grid):
                 if neighbor != grid.end:
                     neighbor.color = VISITED_COLOR
         draw_and_delay(grid)
-
-    return reconstruct_path(parent, grid, expanded)
+    total_time = time.time() - start_time
+    return reconstruct_path(parent, grid, expanded,total_time)
 
 
 def dijkstra(grid):
@@ -73,6 +75,7 @@ def dijkstra(grid):
     expanded = 0
     in_queue = set()
     in_queue.add(grid.start)
+    start_time = time.time()
 
     while not pq.empty():
         _, _, current = pq.get()
@@ -98,12 +101,12 @@ def dijkstra(grid):
                 if neighbor != grid.end:
                     neighbor.color = VISITED_COLOR
         draw_and_delay(grid)
-
-    return reconstruct_path(parent, grid, expanded)
+    total_time = time.time() - start_time
+    return reconstruct_path(parent, grid, expanded,total_time)
 
 
 def astar(grid):
-
+    start_time = time.time()
     pq = PriorityQueue()
     counter = count()
 
@@ -143,8 +146,8 @@ def astar(grid):
                     neighbor.color = VISITED_COLOR  # các node hàng xóm được mở rộng
 
         draw_and_delay(grid)
-
-    return reconstruct_path(parent, grid, expanded)
+    total_time = time.time() - start_time
+    return reconstruct_path(parent, grid, expanded, total_time)
 
 
 def heuristic(a, b):
@@ -159,7 +162,7 @@ def get_neighbors(grid, cell):
             result.append(grid.cells[r][c])
     return result
 
-def reconstruct_path(parent, grid, expanded):
+def reconstruct_path(parent, grid, expanded, time):
     current = grid.end
     length = 0
     while current in parent:
@@ -168,7 +171,7 @@ def reconstruct_path(parent, grid, expanded):
             current.color = PATH_COLOR
         draw_and_delay(grid)
         length += 1
-    return {"length": length, "expanded": expanded}
+    return {"length": length, "expanded": expanded, "time" : time}
 
 def draw_and_delay(grid):
     screen = pygame.display.get_surface()
