@@ -4,6 +4,8 @@ from algorithms import bfs, dfs, dijkstra, astar
 from maze_generator import generate_maze
 from control_panel import ControlPanel
 from config import *
+import matplotlib.pyplot as plt
+
 
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -93,11 +95,58 @@ def run_algo(algo, name):
         print(f"{name.upper()} | Path length: {result['length']} | Expanded: {result['expanded']} | Time: {result['time']}")
 
 def run_all_algorithms():
-    for algo in [dfs, bfs, dijkstra, astar]:
-        run_algo(algo, algo.__name__)
+    print("Running all algorithms for comparison...\n")
+
+    algorithms = [
+        ("BFS", bfs),
+        ("DFS", dfs),
+        ("Dijkstra", dijkstra),
+        ("A*", astar)
+    ]
+
+    results = []
+
+    for name, algo in algorithms:
+        grid.reset_colors()
+        result = algo(grid)
+        if result:
+            result["name"] = name
+            print_result(result, name)
+            results.append(result)
+
+    # Hiển thị biểu đồ sau khi chạy xong
+    show_results_chart(results)
+
+def show_results_chart(results):
+    names = [r["name"] for r in results]
+    lengths = [r["length"] for r in results]
+    expanded = [r["expanded"] for r in results]
+    times = [r["time"] for r in results]
+
+    plt.figure(figsize=(12, 4))
+
+    plt.subplot(1, 3, 1)
+    plt.bar(names, lengths, color='skyblue')
+    plt.title("Path Length")
+    plt.ylabel("Steps")
+
+    plt.subplot(1, 3, 2)
+    plt.bar(names, expanded, color='orange')
+    plt.title("Expanded Nodes")
+    plt.ylabel("Count")
+
+    plt.subplot(1, 3, 3)
+    plt.bar(names, times, color='green')
+    plt.title("Execution Time")
+    plt.ylabel("Seconds")
+
+    plt.suptitle("Pathfinding Algorithm Comparison", fontsize=14)
+    plt.tight_layout()
+    plt.show()
+
 
 def print_result(result, name):
-    print(f"{name.upper()} | Path length: {result['length']} | Expanded: {result['expanded']}")
+    print(f"{name.upper()} | Path length: {result['length']} | Expanded: {result['expanded']} | Time: {result['time']}")
 
 def set_selecting(mode):
     global selecting
